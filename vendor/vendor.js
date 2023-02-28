@@ -1,8 +1,20 @@
+'use strict';
+
 const eventPool = require('../eventPool');
 
-function simulatePickup(storeName) {
-  const vendorOrderPayload = { storeName };
-  eventPool.emit('pickup', vendorOrderPayload);
-};
+var Chance = require('chance');
+var chance = new Chance();
 
-module.exports = simulatePickup();
+module.exports = (store) => {
+  
+  const payload = {
+    store: store,
+    orderID: chance.guid(),
+    customer: chance.name(),
+    address: chance.address(),
+  };
+
+  // console.log(`PICKUP: ${{ payload }}`);
+  eventPool.emit('pickup', payload);
+
+};
